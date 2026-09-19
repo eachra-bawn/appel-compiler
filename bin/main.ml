@@ -26,23 +26,24 @@ let prog =
 (* Write an ML function (maxargs : stm -> int) that tells the maximum
 number of arguments of any print statement within any subexpression of
 a given statement. For example, maxargs (prog) is 2. *)
+
 (* This was from Copilot *)
-let maxargs (statement : stm) : int =
+let maxargs stm =
   let rec maxargs_stm = function
     | CompundStm (stm1, stm2) -> max (maxargs_stm stm1) (maxargs_stm stm2)
-    | AssignStm (_, expression) -> maxargs_exp expression
-    | PrintStm expressions ->
-        max (List.length expressions)
+    | AssignStm (_, exp) -> maxargs_exp exp
+    | PrintStm exps ->
+        max (List.length exps)
           (List.fold_left
-             (fun maximum expression -> max maximum (maxargs_exp expression))
-             0 expressions)
+             (fun maximum exp -> max maximum (maxargs_exp exp))
+             0 exps)
   and maxargs_exp = function
     | IdExp _ | NumExp _ -> 0
     | OpExp (left, _, right) -> max (maxargs_exp left) (maxargs_exp right)
-    | EseqExp (statement, expression) ->
-        max (maxargs_stm statement) (maxargs_exp expression)
+    | EseqExp (stm, exp) ->
+        max (maxargs_stm stm) (maxargs_exp exp)
   in
-  maxargs_stm statement
+  maxargs_stm stm
 
 let () =
   let prog_maxargs = maxargs prog in
