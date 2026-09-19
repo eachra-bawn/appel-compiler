@@ -1,0 +1,4 @@
+.vscode/
+.zed/
+_build/
+appel-compiler.opam

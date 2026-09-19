@@ -1,0 +1,4 @@
+(executable
+ (public_name appel-compiler)
+ (name main)
+ (libraries appel_compiler))
