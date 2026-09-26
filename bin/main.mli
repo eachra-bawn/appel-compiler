@@ -1,6 +1,6 @@
 type id = string
 type binop = Plus | Minus | Times | Div
-type symbol_table = (id * int) list
+type table = (id * int) list
 
 type stm =
   | CompundStm of stm * stm
@@ -15,4 +15,5 @@ and exp =
 
 val prog : stm
 val maxargs : stm -> int
-(* val interp : stm -> unit *)
+val lookup : table * id -> int
+val interp : stm -> unit
